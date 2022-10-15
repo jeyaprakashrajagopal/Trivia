@@ -1,9 +1,8 @@
-package com.anonymous.trivia
+package com.anonymous.trivia.model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.anonymous.trivia.data.DataOrException
-import com.anonymous.trivia.model.QuestionItem
 import com.anonymous.trivia.repository.TriviaRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.anonymous.trivia.model.QuestionItem
+import com.anonymous.trivia.model.TriviaViewModel
 import com.anonymous.trivia.widgets.DashedLine
 
 @Composable
