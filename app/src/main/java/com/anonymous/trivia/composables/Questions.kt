@@ -40,7 +40,7 @@ fun CreateQuestions(viewModel: TriviaViewModel = hiltViewModel()) {
     }
 
     if (questions.value.loading == true) {
-        CircularProgressBarDisplay()
+        CircularProgressBarDisplay(size = 100.dp)
     } else {
         Log.d("Create Questions ", "CreateQuestions: ${data?.size}")
         val animate by animateFloatAsState(
@@ -50,13 +50,16 @@ fun CreateQuestions(viewModel: TriviaViewModel = hiltViewModel()) {
             LinearProgressIndicator(
                 progress = animate,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(30.dp)
-                    .padding(10.dp)
-                    .border(
-                        width = 2.dp, brush = Brush.linearGradient(
-                            listOf(Color.DarkGray, Color.DarkGray)
-                        ), shape = RoundedCornerShape(10.dp)
+                    .then(
+                        other = Modifier
+                            .fillMaxWidth()
+                            .height(30.dp)
+                            .padding(10.dp)
+                            .border(
+                                width = 2.dp, brush = Brush.linearGradient(
+                                    listOf(Color.DarkGray, Color.DarkGray)
+                                ), shape = RoundedCornerShape(10.dp)
+                            )
                     )
                     .clip(RoundedCornerShape(10.dp))
             )
