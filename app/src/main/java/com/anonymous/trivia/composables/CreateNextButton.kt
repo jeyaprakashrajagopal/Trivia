@@ -2,7 +2,6 @@ package com.anonymous.trivia
 
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,8 +34,7 @@ fun CreateNextButton(
         },
         modifier = Modifier
             .wrapContentWidth()
-            .padding(10.dp)
-            .background(Color.Gray),
+            .padding(10.dp),
         shape = RoundedCornerShape(10.dp)
     ) {
         Text(

@@ -43,34 +43,13 @@ fun CreateQuestions(viewModel: TriviaViewModel = hiltViewModel()) {
         CircularProgressBarDisplay(size = 100.dp)
     } else {
         Log.d("Create Questions ", "CreateQuestions: ${data?.size}")
-        val animate by animateFloatAsState(
-            targetValue = questionNumber.value.toFloat() / (data?.size ?: 0)
-        )
-        Column(modifier = Modifier.fillMaxSize()) {
-            LinearProgressIndicator(
-                progress = animate,
-                modifier = Modifier
-                    .then(
-                        other = Modifier
-                            .fillMaxWidth()
-                            .height(30.dp)
-                            .padding(10.dp)
-                            .border(
-                                width = 2.dp, brush = Brush.linearGradient(
-                                    listOf(Color.DarkGray, Color.DarkGray)
-                                ), shape = RoundedCornerShape(10.dp)
-                            )
-                    )
-                    .clip(RoundedCornerShape(10.dp))
-            )
-            DisplayQuestion(
-                questionNumber.value,
-                questions.value.data?.size ?: 0,
-                data?.get(questionNumber.value),
-                selected
-            ) {
-                viewModel.incrementQuestionNo()
-            }
+        DisplayQuestion(
+            questionNumber.value,
+            questions.value.data?.size ?: 0,
+            data?.get(questionNumber.value),
+            selected
+        ) {
+            viewModel.incrementQuestionNo()
         }
 
     }
@@ -89,6 +68,9 @@ fun DisplayQuestion(
             it == data?.answer
         }
     }
+    val animate by animateFloatAsState(
+        targetValue = start.toFloat() / end
+    )
     val context = LocalContext.current
     Surface(
         modifier = Modifier
@@ -98,33 +80,56 @@ fun DisplayQuestion(
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(modifier = Modifier.fillMaxWidth(), text = buildAnnotatedString {
-                withStyle(style = ParagraphStyle(textIndent = TextIndent.None)) {
-                    withStyle(style = SpanStyle(color = Color.Black, fontSize = 27.sp)) {
-                        append("Question $start/")
-                        withStyle(style = SpanStyle(color = Color.Black, fontSize = 10.sp)) {
-                            append("$end")
+            Column {
+                Spacer(modifier = Modifier.height(20.dp))
+                LinearProgressIndicator(
+                    progress = animate,
+                    modifier = Modifier
+                        .then(
+                            other = Modifier
+                                .fillMaxWidth()
+                                .height(20.dp)
+                                .border(
+                                    width = 2.dp, brush = Brush.linearGradient(
+                                        listOf(Color.DarkGray, Color.DarkGray)
+                                    ), shape = RoundedCornerShape(10.dp)
+                                )
+                        )
+                        .clip(RoundedCornerShape(10.dp))
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+
+                Text(modifier = Modifier.fillMaxWidth(), text = buildAnnotatedString {
+                    withStyle(style = ParagraphStyle(textIndent = TextIndent.None)) {
+                        withStyle(style = SpanStyle(color = Color.Black, fontSize = 27.sp)) {
+                            append("Question $start/")
+                            withStyle(style = SpanStyle(color = Color.Black, fontSize = 10.sp)) {
+                                append("$end")
+                            }
                         }
                     }
-                }
-            })
-            DashedLine(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(1.dp),
-                pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
-            )
-            Text(
-                text = data?.question.toString(),
-                style = MaterialTheme.typography.h5,
-                fontSize = 20.sp
-            )
-            Spacer(modifier = Modifier.height(150.dp))
-            CreateAnswersView(data, selected, isCorrectAnswer)
-            Spacer(modifier = Modifier.width(50.dp))
-            CreateNextButton(selected, onNextClicked, context)
+                })
+                DashedLine(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(1.dp),
+                    pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
+                )
+
+                Text(
+                    text = data?.question.toString(),
+                    style = MaterialTheme.typography.h5,
+                    fontSize = 20.sp
+                )
+            }
+            Column {
+                CreateAnswersView(data, selected, isCorrectAnswer)
+            }
+            Column {
+                CreateNextButton(selected, onNextClicked, context)
+            }
         }
     }
 }
