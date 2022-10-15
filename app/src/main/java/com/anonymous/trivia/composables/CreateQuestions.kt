@@ -1,6 +1,5 @@
 package com.anonymous.trivia
 
-import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -42,7 +41,6 @@ fun CreateQuestions(viewModel: TriviaViewModel = hiltViewModel()) {
     if (questions.value.loading == true) {
         CircularProgressBarDisplay(size = 100.dp)
     } else {
-        Log.d("Create Questions ", "CreateQuestions: ${data?.size}")
         DisplayQuestion(
             questionNumber.value,
             questions.value.data?.size ?: 0,
